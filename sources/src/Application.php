@@ -2,6 +2,7 @@
 
 namespace HsBremen\WebApi;
 
+use HsBremen\WebApi\Course\CourseService;
 use HsBremen\WebApi\Order\OrderService;
 use Silex\Application as Silex;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -21,12 +22,20 @@ class Application extends Silex
             return new OrderService();
         });
 
+        $app['service.course'] = $app->share(function() {
+            return new CourseService();
+        });
+
         // Order Routen
         $this->get('/order', 'service.order:getList');
         $this->get('/order/{orderId}', 'service.order:getDetails');
         $this->post('/order', 'service.order:createOrder');
         $this->put('/order/{orderId}', 'service.order:changeOrder');
 
+        // Course Routen
+        $this->get('/course', 'service.course:getList');
+        $this->get('/course/{courseId}', 'service.course:getDetails');
+        
         // http://silex.sensiolabs.org/doc/cookbook/json_request_body.html
         $this->before(function (Request $request) use ($app) {
             if ($app->requestIsJson($request)) {
