@@ -24,7 +24,7 @@ class CourseService
 
     public function getDetails($courseId)
     {
-        $course_tmp = new Course(1);
+        $course_tmp = new Course($courseId);
         return new JsonResponse($course_tmp);
     }
     

@@ -9,6 +9,8 @@
 namespace HsBremen\WebApi\Entity;
 
 
+use DateTime;
+
 class Appointment implements \JsonSerializable
 {
     public static $weekdays = array("So","Mo","Di","Mi","Do","Fr","Sa");
@@ -34,8 +36,8 @@ class Appointment implements \JsonSerializable
     function jsonSerialize()
     {
         if($this->type == 'weekly'){
-            $start_str = weekdays[$this->start->format('w')] . ", " . $this->start->format('H:i');
-            $end_str = weekdays[$this->end->format('w')] . ", " . $this->end->format('H:i');
+            $start_str = Appointment::$weekdays[$this->start->format('w')] . ", " . $this->start->format('H:i');
+            $end_str = Appointment::$weekdays[$this->end->format('w')] . ", " . $this->end->format('H:i');
         } else {
             $start_str = $this->start->format("d.m.Y, H:i");
             $end_str = $this->end->format("d.m.Y, H:i");

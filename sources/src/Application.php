@@ -4,6 +4,7 @@ namespace HsBremen\WebApi;
 
 use Basster\Silex\Provider\Swagger\SwaggerProvider;
 use Basster\Silex\Provider\Swagger\SwaggerServiceKey;
+use HsBremen\WebApi\Course\CourseServiceProvider;
 use HsBremen\WebApi\Order\OrderServiceProvider;
 use HsBremen\WebApi\Security\SecurityProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
@@ -55,6 +56,9 @@ class Application extends Silex
         // al about orders
         $this->register(new OrderServiceProvider());
         $this->register(new SecurityProvider());
+        
+        // course Provider
+        $this->register(new CourseServiceProvider());
 
         // http://silex.sensiolabs.org/doc/cookbook/json_request_body.html
         $this->before(function (Request $request) use ($app) {
