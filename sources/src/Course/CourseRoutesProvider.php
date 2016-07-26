@@ -17,7 +17,7 @@ class CourseRoutesProvider implements ControllerProviderInterface
 
         /**
          * @SWG\Parameter(name="id", type="integer", format="int32", in="path")
-         * @SWG\Tag(name="order", description="All about orders")
+         * @SWG\Tag(name="course", description="All about courses")
          */
 
         /**

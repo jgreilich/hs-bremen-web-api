@@ -17,7 +17,7 @@ class SecurityProvider implements ServiceProviderInterface
         $app['security.firewalls'] = [
           'admin' => [
               // RegEx
-              'pattern' => '^/',
+              'pattern' => '^/order/',
               // HTTP-Basic Auth flag
               'http'    => true,
               // Users array

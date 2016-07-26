@@ -31,18 +31,30 @@ class CourseRepository
     public function CreateTables()
     {
         $sql = <<<EOS
-CREATE TABLE IF NOT EXISTS `Teacher` (
+CREATE TABLE IF NOT EXISTS `Person` (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
-);        
+);
+        
+        
+
 CREATE TABLE IF NOT EXISTS `Course` (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     max_nr_subscriber INT NOT NULL,
     id_teacher INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_teacher) REFERENCES Teacher(id)
+    FOREIGN KEY (id_teacher) REFERENCES Teacher(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS `Appointment` (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    description VARCHAR(255) NOT NULL,
+    id_course INT UNSIGNED NOT NULL,
+    dstart Date NOT NULL,
+    dend Date NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_course) REFERENCES Course(id) ON DELETE CASCADE
 );
 EOS;
         return $this->connection->exec($sql);
