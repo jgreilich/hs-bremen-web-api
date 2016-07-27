@@ -10,6 +10,7 @@ use HsBremen\WebApi\Error\ErrorProvider;
 use HsBremen\WebApi\Logging\LoggingProvider;
 use HsBremen\WebApi\Order\OrderServiceProvider;
 use HsBremen\WebApi\Security\SecurityProvider;
+use HsBremen\WebApi\Security\UserServiceProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
 use Silex\Application as Silex;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
  *     host="web-api.vm"
  * )
  * @SWG\Info(
- *     title="My First API",
+ *     title="Kurs-Planer",
  *     version="0.1"
  * )
  */
@@ -65,10 +66,12 @@ class Application extends Silex
         // enable database connection
         $app->register(new DatabaseProvider());
 
+        // Security
+        $this->register(new SecurityProvider());
+//        $this->register(new UserServiceProvider());
+        
         // al about orders
         $this->register(new OrderServiceProvider());
-        $this->register(new SecurityProvider());
-        
         // course Provider
         $this->register(new CourseServiceProvider());
 
