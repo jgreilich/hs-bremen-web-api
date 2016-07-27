@@ -68,14 +68,15 @@ class Application extends Silex
 
         // Security
         $this->register(new SecurityProvider());
-//        $this->register(new UserServiceProvider());
+        $this->register(new UserServiceProvider());
         
-        // al about orders
+        // all about orders
         $this->register(new OrderServiceProvider());
         // course Provider
         $this->register(new CourseServiceProvider());
 
         // error handling
+        // https://github.com/financialmedia/FMKeystoneBundle/issues/12 // Fuck this shit!!!!!!!!!!
         $this->register(new ErrorProvider());
 
         // http://silex.sensiolabs.org/doc/cookbook/json_request_body.html

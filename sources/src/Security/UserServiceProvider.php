@@ -23,8 +23,8 @@ class UserServiceProvider implements ServiceProviderInterface
             return new UserProvider($app);
         });
         
-        $app['service.register'] = $app->share(function () {
-            return new UserService();
+        $app['service.register'] = $app->share(function (Application $app) {
+            return new UserService($app['repo.user']);
         });
         
         $app->mount('/register', new UserRoutesProvider());

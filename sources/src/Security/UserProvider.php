@@ -5,6 +5,7 @@
 namespace HsBremen\WebApi\Security;
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -76,22 +77,11 @@ EOS;
      */
     public function saveNewUser($username, $password)
     {
-//        $token = $this->app['security.token_storage']->getToken();
-
-//        if (null !== $token) {
-//            /** @var User $user */
-//            $user = $token->getUser();
-            
-//        /** @var PasswordEncoderInterface $encoder */
-//        $encoder = $this->app['security.encoder_factory']->getEncoder($user);
-//        $password = $encoder->encodePassword($password, ''); // TODO: salt?
-            
-        $this->conn->insert('users', 
-            [$username, $password, 'ROLE_USER']);
-            
-//        } else {
-//            return false; // TODO: throw Exception
-//        }
+        $password = $this->app['security.encoder.digest']->encodePassword($password, '');
+        
+        $this->conn->insert('users',
+            ['username'=>$username, 'password' => $password, 'roles' => 'ROLE_USER']);
+        
     }
     
     
