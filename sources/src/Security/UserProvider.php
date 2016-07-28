@@ -59,13 +59,13 @@ class UserProvider implements UserProviderInterface
     {
         // Create User Database-Table
         $sql = <<<EOS
-        CREATE TABLE IF NOT EXISTS `users` (
-        `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-        `username` VARCHAR(100) NOT NULL DEFAULT '',
-        `password` VARCHAR(255) NOT NULL DEFAULT '',
-         `roles` VARCHAR(255) NOT NULL DEFAULT '',
-         PRIMARY KEY (`id`),
-         UNIQUE KEY `unique_username` (`username`))    
+CREATE TABLE IF NOT EXISTS `users` (
+`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+`username` VARCHAR(100) NOT NULL DEFAULT '',
+`password` VARCHAR(255) NOT NULL DEFAULT '',
+ `roles` VARCHAR(255) NOT NULL DEFAULT '',
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `unique_username` (`username`)) 
 EOS;
         $this->conn->exec($sql);
     }

@@ -39,9 +39,6 @@ class UserRoutesProvider implements ControllerProviderInterface
          */
         $controllers->post('/', 'service.register:registerUser');
 
-
-        $controllers->get('/', 'service.register:getReg');
-
         return $controllers;
     }
 }

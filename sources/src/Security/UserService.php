@@ -41,13 +41,8 @@ class UserService
                 return new Response("Error: " . $ex->getMessage(),400);
             }
         } else {
-            return new Response("User-Data required.",400);
+            return new Response("User-Data required.",412);
         }
     }
-
-
-    public function getReg()
-    {
-        return new Response('Available');
-    }
+    
 }
