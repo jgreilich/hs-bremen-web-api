@@ -33,8 +33,8 @@ class Appointment implements \JsonSerializable
     private $until;
     /** @var  int $count */
     private $count;
-    /** @var  int $interval */
-    private $interval;
+    /** @var  int $rinterval */
+    private $rinterval;
     /** @var int $course_id */
     private $courseid;
 
@@ -48,9 +48,9 @@ class Appointment implements \JsonSerializable
      * @param string $freq
      * @param DateTime $until
      * @param int $count
-     * @param int $interval
+     * @param int $rinterval
      */
-    public function __construct($description, DateTime $dtstart, DateTime $dtend = null, DateInterval $duration = null, $freq, DateTime $until = null, $count = null, $interval=null, $id=null)
+    public function __construct($description = null, DateTime $dtstart = null, DateTime $dtend = null, DateInterval $duration = null, $freq=null, DateTime $until = null, $count = null, $rinterval=null, $id=null)
     {
         $this->id = $id;
         $this->description = $description;
@@ -60,9 +60,44 @@ class Appointment implements \JsonSerializable
         $this->freq = $freq;
         $this->until = $until;
         $this->count = $count;
-        $this->interval = $interval;
-        
-        $this->checkIntegrity();
+        $this->rinterval = $rinterval;
+    }
+
+
+    public static function createFromArray(array $row)
+    {
+        $appmnt = new self();
+        if(array_key_exists('id',$row)) {
+            $appmnt->setId($row['id']);
+        }
+        if(array_key_exists('description',$row)) {
+            $appmnt->setDescription($row['description']);
+        }
+        if(array_key_exists('dtstart',$row)) {
+            $appmnt->setDtstart(DateTimeHelper::SqlToDateTime($row['dtstart']));
+        }
+        if(array_key_exists('dtend',$row)) {
+            $appmnt->setDtend(DateTimeHelper::SqlToDateTime($row['dtend']));
+        }
+        if(array_key_exists('duration',$row)) {
+            $appmnt->setDuration($row['duration']);
+        }
+        if(array_key_exists('freq',$row)) {
+            $appmnt->setFreq($row['freq']);
+        }
+        if(array_key_exists('until',$row)) {
+            $appmnt->setUntil(DateTimeHelper::SqlToDateTime($row['until']));
+        }
+        if(array_key_exists('count',$row)) {
+            $appmnt->setCount($row['count']);
+        }
+        if(array_key_exists('rinterval',$row)) {
+            $appmnt->setRinterval($row['rinterval']);
+        }
+        if(array_key_exists('courseid',$row)) {
+            $appmnt->setCourseid($row['courseid']);
+        }
+        return $appmnt;
     }
 
     /**
@@ -91,18 +126,17 @@ class Appointment implements \JsonSerializable
     
     function jsonSerialize()
     {
-        if($this->type == 'weekly'){
-            $start_str = Appointment::$weekdays[$this->start->format('w')] . ", " . $this->start->format('H:i');
-            $end_str = Appointment::$weekdays[$this->end->format('w')] . ", " . $this->end->format('H:i');
-        } else {
-            $start_str = $this->start->format("d.m.Y, H:i");
-            $end_str = $this->end->format("d.m.Y, H:i");
-        }
         return [
-            'name' => $this->name,
-            'type' => $this->type,
-            'start' => $start_str,
-            'end' => $end_str,
+            'id' => $this->id,
+            'description' => $this->description,
+            'dtstart' => DateTimeHelper::dateTimeToSqlString($this->dtstart),
+            'dtend' => DateTimeHelper::dateTimeToSqlString($this->dtend),
+            'duration' => $this->duration,
+            'freq' => $this->freq,
+            'until' => DateTimeHelper::dateTimeToSqlString($this->until),
+            'count' => $this->count,
+            'rinterval' => $this->rinterval,
+            'courseid' => $this->courseid
         ];
     }
 
@@ -238,17 +272,17 @@ class Appointment implements \JsonSerializable
     /**
      * @return int
      */
-    public function getInterval()
+    public function getRinterval()
     {
-        return $this->interval;
+        return $this->rinterval;
     }
 
     /**
      * @param int $interval
      */
-    public function setInterval($interval)
+    public function setRinterval($interval)
     {
-        $this->interval = $interval;
+        $this->rinterval = $interval;
     }
 
     /**

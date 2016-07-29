@@ -67,7 +67,7 @@ EOS;
         
         $apptmntRepo = new AppointmentRepository($conn);
         
-        $apptmntRepo->saveAppointment(1, $appmnt);
+        $apptmntRepo->saveNewAppointment( $appmnt);
     }
 
     /**
@@ -95,7 +95,7 @@ EOS;
 
         $apptmntRepo = new AppointmentRepository($conn);
 
-        $apptmntRepo->saveAppointment(1, $appmnt);
+        $apptmntRepo->saveAppointment($appmnt);
     }
 
     

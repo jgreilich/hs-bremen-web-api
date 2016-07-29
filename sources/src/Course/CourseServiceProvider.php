@@ -14,8 +14,8 @@ class CourseServiceProvider implements ServiceProviderInterface
             return new CourseRepository($app['db']);
         });
         
-        $app['service.course'] = $app->share(function () {
-            return new CourseService();
+        $app['service.course'] = $app->share(function (Application $app) {
+            return new CourseService($app['repo.course'],$app['security.token_storage']);
         });
 
         $app->mount('/course', new CourseRoutesProvider());

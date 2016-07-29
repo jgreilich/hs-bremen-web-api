@@ -32,7 +32,7 @@ class UserService
     {
         $username = $request->request->get('username',false);
         $password = $request->request->get('password',false);
-
+        
         if($username && $password){
             try {
                 $this->userRepository->saveNewUser($username,$password);

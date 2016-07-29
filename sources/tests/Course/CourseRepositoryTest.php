@@ -12,22 +12,23 @@ class CourseRepositoryTest extends PHPUnit_Framework_TestCase
      */
     public function shouldCreateTable()
     {
-        $sql = <<<EOS
+        $sql1 = <<<EOS
 CREATE TABLE IF NOT EXISTS `course` (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    owner VARCHAR(100) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    max_nr_subscriber INT NOT NULL,
-    id_teacher INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_teacher) REFERENCES Teacher(id) ON DELETE CASCADE
+    FOREIGN KEY (owner) REFERENCES users(username) ON DELETE CASCADE
 );
+EOS;
+
+        $sql2 = <<<EOS
 CREATE TABLE IF NOT EXISTS `user_course` (
-    userid INT(11) NOT NULL,
-    courseid INT(11) NOT NULL,
-    userfunction VARCHAR(15),
-    PRIMARY KEY (userid, courseid),
-    FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (courseid) REFERENCES course(id) ON DELETE CASCADE
+  user VARCHAR(100) NOT NULL,
+  courseid INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (user, courseid),
+  CONSTRAINT fk_user FOREIGN KEY (user) REFERENCES users(username),
+  CONSTRAINT fk_course FOREIGN KEY (courseid) REFERENCES course(id)
 );
 EOS;
 
@@ -36,9 +37,9 @@ EOS;
             ->getMock();
 
         $conn
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('exec')
-            ->with($sql);
+            ->withConsecutive([$sql1],[$sql2]);
 
         $courseRepo = new CourseRepository($conn);
 

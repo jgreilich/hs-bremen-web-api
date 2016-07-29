@@ -29,7 +29,6 @@ class OrderRoutesProvider implements ControllerProviderInterface
          * @SWG\Get(
          *     path="/order/{id}",
          *     tags={"order"},
-         *     @SWG\Parameter(ref="#/parameters/id"),
          *     @SWG\Response(
          *         response="200",
          *         description="An example resource",
@@ -51,7 +50,6 @@ class OrderRoutesProvider implements ControllerProviderInterface
          * @SWG\Put(
          *     tags={"order"},
          *     path="/order/{id}",
-         *     @SWG\Parameter(ref="#/parameters/id"),
          *     @SWG\Response(
          *          response="200",
          *          description="An example resource",

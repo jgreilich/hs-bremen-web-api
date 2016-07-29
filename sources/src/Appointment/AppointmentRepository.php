@@ -3,6 +3,7 @@
 namespace HsBremen\WebApi\Appointment;
 
 use Doctrine\DBAL\Connection;
+use HsBremen\WebApi\Database\DatabaseException;
 use HsBremen\WebApi\Entity\Appointment;
 use HsBremen\WebApi\Entity\DateTimeHelper;
 
@@ -27,13 +28,13 @@ class AppointmentRepository
 CREATE TABLE IF NOT EXISTS `appointment` (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     description VARCHAR(255),
-    dtstart Date NOT NULL,
-    dtend Date,
+    dtstart DATETIME NOT NULL,
+    dtend DATETIME,
     duration VARCHAR(50),
     freq VARCHAR(15),
-    until DATE,
-    count INT(11)
-    interval INT(11)
+    until DATETIME,
+    count INT(11),
+    rinterval INT(11),
     courseid INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (courseid) REFERENCES course(id) ON DELETE CASCADE
@@ -43,36 +44,48 @@ EOS;
     }
 
 
-    public function saveAppointment($courseid, Appointment $appmnt)
+    public function saveNewAppointment(Appointment $appmnt)
     {
-        if($appmnt->getId() == null){
-            $this->connection->insert('appointment',array(
-                "description" => $appmnt->getDescription(),
-                "dtstart" => $appmnt->getDtstart(),
-                "dtend" => $appmnt->getDtend(),
-                "duration" => DateTimeHelper::dateIntervalToString($appmnt->getDuration()),
-                "freq" => $appmnt->getFreq(),
-                "until" => $appmnt->getUntil(),
-                "count" => $appmnt->getCount(),
-                "interval" => $appmnt->getInterval(),
-                "courseid" => $courseid
-            )); 
+        $data = $appmnt->jsonSerialize();
+        unset($data['id']);
+        $this->connection->insert('appointment',$data);
+        $appmnt->setId($this->connection->lastInsertId());
+    }
+
+    public function saveAppointment(Appointment $appmnt)
+    {
+        $data = $appmnt->jsonSerialize();
+        $this->connection->update('appointment',$data,["id" => $appmnt->getId()]);
+    }
+
+    public function getAppointment($id)
+    {
+        $sql = "SELECT *  FROM `appointment` WHERE id= :id";
+        $appmnt = $this->connection->fetchAll($sql,['id' => $id]);
+        if(count($appmnt) === 1) {
+            return Appointment::createFromArray($appmnt[0]);
         } else {
-            $this->connection->update('appointment',array(
-                "description" => $appmnt->getDescription(),
-                "dtstart" => $appmnt->getDtstart(),
-                "dtend" => $appmnt->getDtend(),
-                "duration" => DateTimeHelper::dateIntervalToString($appmnt->getDuration()),
-                "freq" => $appmnt->getFreq(),
-                "until" => $appmnt->getUntil(),
-                "count" => $appmnt->getCount(),
-                "interval" => $appmnt->getInterval(),
-                "courseid" => $courseid
-            ),["id" => $appmnt->getId()]);
+            throw new DatabaseException("No appointment with id \"$id\"");
         }
     }
+
+    public function getAllAppointsments($courseId)
+    {
+        $sql = "SELECT * FROM `appointment` WHERE courseid= :id";
+        $appmnts = $this->connection->fetchAll($sql,['id' => $courseId]);
+
+        $result = [];
+
+        foreach ($appmnts as $row) {
+            $result[] = Appointment::createFromArray($row);
+        }
+
+        return $result;
+    }
     
-    
+    public function deleteAppointment($id){
+        $this->connection->delete('appointment',['id' => $id]);
+    }
     
 
 }

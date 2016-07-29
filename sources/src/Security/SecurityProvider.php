@@ -16,6 +16,9 @@ class SecurityProvider implements ServiceProviderInterface
         $app->register(new SecurityServiceProvider());
 
         $app['security.firewalls'] = [
+            'documentation' => [
+                'pattern' => '^/docs',
+            ],
             'register' => [
                 'pattern' => '^/register',
             ],

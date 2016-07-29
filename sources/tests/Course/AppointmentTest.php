@@ -15,6 +15,7 @@ class AppointmentTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException(InvalidAppointmentException::class);
         
         $appmnt = new Appointment($description,$dtstart,$dtend,$duration,$freq,$until,$count,$interval,$id);
+        $appmnt->checkIntegrity();
     }
 
     public function exceptionCausingValues()

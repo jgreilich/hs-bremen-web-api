@@ -46,4 +46,23 @@ class DateTimeHelper
 
         return $specString;
     }
+
+    public static function dateTimeToSqlString(\DateTime $dateTime=null)
+    {
+        if($dateTime != null) {
+            return date ("Y-m-d H:i:s", $dateTime->getTimestamp());
+        } else {
+            return null;
+        }
+    }
+
+    public static function SqlToDateTime($sqlDateTime)
+    {
+        if($sqlDateTime == null) {
+            return null;
+        } else {
+            return new \DateTime($sqlDateTime);
+        }
+    }
+
 }

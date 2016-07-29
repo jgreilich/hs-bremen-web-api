@@ -4,6 +4,7 @@ namespace HsBremen\WebApi;
 
 use Basster\Silex\Provider\Swagger\SwaggerProvider;
 use Basster\Silex\Provider\Swagger\SwaggerServiceKey;
+use HsBremen\WebApi\Appointment\AppointmentServiceProvider;
 use HsBremen\WebApi\Course\CourseServiceProvider;
 use HsBremen\WebApi\Database\DatabaseProvider;
 use HsBremen\WebApi\Error\ErrorProvider;
@@ -72,12 +73,14 @@ class Application extends Silex
         
         // all about orders
         $this->register(new OrderServiceProvider());
+
+        $this->register(new AppointmentServiceProvider());
         // course Provider
         $this->register(new CourseServiceProvider());
 
         // error handling
         // https://github.com/financialmedia/FMKeystoneBundle/issues/12 // Fuck this shit!!!!!!!!!!
-        $this->register(new ErrorProvider());
+//        $this->register(new ErrorProvider());
 
         // http://silex.sensiolabs.org/doc/cookbook/json_request_body.html
         $this->before(function (Request $request) use ($app) {

@@ -37,7 +37,6 @@ class UnhandledExceptionSubscriber implements EventSubscriberInterface
         $data = [
           'message' => $exception->getMessage(),
           'code'    => $exception->getCode(),
-            'trace' => $exception->getTrace(),
         ];
 
         if ($this->debug === true) {
