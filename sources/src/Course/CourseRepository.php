@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `user_course` (
   user VARCHAR(100) NOT NULL,
   courseid INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (user, courseid),
-  CONSTRAINT fk_user FOREIGN KEY (user) REFERENCES users(username),
-  CONSTRAINT fk_course FOREIGN KEY (courseid) REFERENCES course(id)
+  CONSTRAINT fk_user FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE,
+  CONSTRAINT fk_course FOREIGN KEY (courseid) REFERENCES course(id) ON DELETE CASCADE
 );
 EOS;
         $this->connection->exec($sql);

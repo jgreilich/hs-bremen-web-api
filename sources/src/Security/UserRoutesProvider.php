@@ -13,9 +13,10 @@ use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
+use Swagger\Annotations as SWG;
+
 class UserRoutesProvider implements ControllerProviderInterface
 {
-
 
     /**
      * Returns routes to connect to the given application.
@@ -28,13 +29,18 @@ class UserRoutesProvider implements ControllerProviderInterface
     {
         /** @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
-        
+
+        /**
+         * @SWG\Tag(name="register", description="Register new users")
+         */
+
         /**
          * @SWG\Post(
          *     path="/register/",
          *     tags={"register"},
          *     @SWG\Response(response="201", description="User is registered."),
-         *     @SWG\Response(response="400", description="User-Data required or DB-Error."),
+         *     @SWG\Response(response="400", description="Database-Error"),
+         *     @SWG\Response(response="412", description="User-Data (Auth-Header) required")
          * )
          */
         $controllers->post('/', 'service.register:registerUser');

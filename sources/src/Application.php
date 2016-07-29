@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
  *     host="web-api.vm"
  * )
  * @SWG\Info(
- *     title="Kurs-Planer",
+ *     title="Course Provider",
  *     version="0.1"
  * )
  */
@@ -59,7 +59,7 @@ class Application extends Silex
                        ]);
 
         // logging
-        $this->register(new LoggingProvider());
+//        $this->register(new LoggingProvider());
 
         // enable cross origin requests!
         $app->register(new CorsServiceProvider());
@@ -70,9 +70,6 @@ class Application extends Silex
         // Security
         $this->register(new SecurityProvider());
         $this->register(new UserServiceProvider());
-        
-        // all about orders
-        $this->register(new OrderServiceProvider());
 
         $this->register(new AppointmentServiceProvider());
         // course Provider

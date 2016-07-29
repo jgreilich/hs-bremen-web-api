@@ -46,6 +46,5 @@ class UserServiceProvider implements ServiceProviderInterface
         // Create User-Table if not exists
         $user_provider->createTable();
         
-        // TODO: Check if admin exists and create one if not
     }
 }

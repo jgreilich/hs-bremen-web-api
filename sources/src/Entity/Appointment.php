@@ -11,31 +11,72 @@ namespace HsBremen\WebApi\Entity;
 
 use DateInterval;
 use DateTime;
+use Swagger\Annotations as SWG;
+
+
+/**
+ * Class Appointment
+ * @package HsBremen\WebApi\Entity
+ * @SWG\Definition(
+ *     definition="appointment",
+ *     type="object"
+ * )
+ */
 
 class Appointment implements \JsonSerializable
 {
     public static $freqencies = array("SECONDLY", "MINUTELY", "HOURLY", "DAILY", "WEEKLY", "MONTHLY", "YEARLY");
     public static $weekdays = array("SU", "MO", "TU", "WE", "TH", "FR", "SA");
 
-    /** @var int $id Appointment-ID */
+    /**
+     * @var int $id Appointment-ID
+     * @SWG\Property(type="integer", format="int32")
+     */
     private $id;
-    /** @var string $description*/
+    /**
+     * @var string $description
+     * @SWG\Property(type="string")
+     */
     private $description;
-    /** @var DateTime $dtstart */
+    /**
+     * @var DateTime $dtstart
+     * @SWG\Property(type="string", format="date-time")
+     */
     private $dtstart;
-    /** @var DateTime $dtend */
+    /**
+     * @var DateTime $dtend
+     * @SWG\Property(type="string", format="date-time")
+     */
     private $dtend;
-    /** @var DateInterval $duration  */
+    /** 
+     * @var DateInterval $duration
+     * @SWG\Property(type="string")
+     */
     private $duration;
-    /** @var string $freq  */
+    /** 
+     * @var string $freq 
+     * @SWG\Property(type="string")
+     */
     private $freq;
-    /** @var DateTime $until */
+    /** 
+     * @var DateTime $until 
+     * @SWG\Property(type="string", format="date-time")
+     */
     private $until;
-    /** @var  int $count */
+    /** 
+     * @var  int $count
+     * @SWG\Property(type="integer") 
+     */
     private $count;
-    /** @var  int $rinterval */
+    /**
+     * @var  int $rinterval
+     * @SWG\Property(type="integer")
+     */
     private $rinterval;
-    /** @var int $course_id */
+    /**
+     * @var int $course_id
+     * @SWG\Property(type="integer")
+     */
     private $courseid;
 
     /**

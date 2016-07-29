@@ -16,13 +16,13 @@ class AppointmentRepositoryTest extends PHPUnit_Framework_TestCase
 CREATE TABLE IF NOT EXISTS `appointment` (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     description VARCHAR(255),
-    dtstart Date NOT NULL,
-    dtend Date,
+    dtstart DATETIME NOT NULL,
+    dtend DATETIME,
     duration VARCHAR(50),
     freq VARCHAR(15),
-    until DATE,
-    count INT(11)
-    interval INT(11)
+    until DATETIME,
+    count INT(11),
+    rinterval INT(11),
     courseid INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (courseid) REFERENCES course(id) ON DELETE CASCADE

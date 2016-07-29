@@ -31,19 +31,22 @@ class CourseRoutesProviderTest extends PHPUnit_Framework_TestCase
 
         $controllerFactory->delete('/{courseId}', 'service.course:deleteCourse')
             ->shouldBeCalled();
+        
+        $controllerFactory->get('/{courseId}/appointment/', 'service.appmnt:getList')
+            ->shouldBeCalled();
 
-//        $controllerFactory->post('/{courseId}','service.appmnt:newAppointment')
-//            ->shouldBeCalled();
+        $controllerFactory->post('/{courseId}/appointment/','service.appmnt:newAppointment')
+            ->shouldBeCalled();
+        
+        $controllerFactory->get('/{courseId}/appointment/{appmntId}', 'service.appmnt:getDetails')
+            ->shouldBeCalled();
 
-//        $controllerFactory->get('/{courseId}/{appmntId}', 'service.appmnt:getDetails')
-//            ->shouldBeCalled();
-//
-//        $controllerFactory->put('/{courseId}/{appmntId}', 'service.appmnt:changeAppmnt')
-//            ->shouldBeCalled();
-//
-//        $controllerFactory->delete('/{courseId}/{appmntId}', 'service.appmnt:deleteAppmnt')
-//            ->shouldBeCalled();
-//
+        $controllerFactory->put('/{courseId}/appointment/{appmntId}', 'service.appmnt:changeAppmnt')
+            ->shouldBeCalled();
+
+        $controllerFactory->delete('/{courseId}/appointment/{appmntId}', 'service.appmnt:deleteAppmnt')
+            ->shouldBeCalled();
+
 
         $controllerFactory->get('/{courseId}/subscribe','service.course:getSubscribers')
             ->shouldBeCalled();
