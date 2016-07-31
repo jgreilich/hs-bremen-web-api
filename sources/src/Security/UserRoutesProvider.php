@@ -32,12 +32,23 @@ class UserRoutesProvider implements ControllerProviderInterface
 
         /**
          * @SWG\Tag(name="register", description="Register new users")
+         * @SWG\Definition(
+         *     definition="credentials",
+         *     type="object",
+         *     properties={
+         *     @SWG\Property(property="username", type="string"),
+         *     @SWG\Property(property="password", type="string", format="password")
+         *     }
+         * )
+         *
+         *
          */
 
         /**
          * @SWG\Post(
          *     path="/register/",
          *     tags={"register"},
+         *     @SWG\Parameter(name="credentials", in="body", @SWG\Schema(ref="#/definitions/credentials")),
          *     @SWG\Response(response="201", description="User is registered."),
          *     @SWG\Response(response="400", description="Database-Error"),
          *     @SWG\Response(response="412", description="User-Data (Auth-Header) required")

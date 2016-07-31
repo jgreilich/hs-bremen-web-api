@@ -40,17 +40,17 @@ class Appointment implements \JsonSerializable
     private $description;
     /**
      * @var DateTime $dtstart
-     * @SWG\Property(type="string", format="date-time", default="01.01.16 15:30")
+     * @SWG\Property(type="string", format="date-time", default="01/01/16 15:30")
      */
     private $dtstart;
     /**
      * @var DateTime $dtend
-     * @SWG\Property(type="string", format="date-time", default="01.01.16 17:30")
+     * @SWG\Property(type="string", format="date-time", default="01/01/16 17:30")
      */
     private $dtend;
     /** 
      * @var DateInterval $duration
-     * @SWG\Property(type="string", default="null")
+     * @SWG\Property(type="string", default="")
      */
     private $duration;
     /** 
@@ -60,7 +60,7 @@ class Appointment implements \JsonSerializable
     private $freq;
     /** 
      * @var DateTime $until 
-     * @SWG\Property(type="string", format="date-time", default="null")
+     * @SWG\Property(type="string", format="date-time", default="")
      */
     private $until;
     /** 
