@@ -1,4 +1,18 @@
-# Web-API | HS-Bremen @ SoSe 2016 
+# Web-API-Projekt: Kurs-Planer | HS-Bremen @ SoSe 2016 
+
+Entwicklung einer Rest-Api die folgende Funktionen zur Verfügung stellt:
+- Registrieren neuer User (/register)
+- Verwalten von Kursen (/course/{course-id})
+- Verwalten von Veranstaltungsterminen von Kursen: (/course/{courseid}/appointment/{appointment-id})
+- Eintragen der Teilname an Kursen (/course/{course/{course-id}/subscribe)
+
+## Gruppenmitglieder
+Julian Greilich
+
+## Swagger Dokumentation ist zu finden unter
+http://web-api.vm/docs/swagger
+
+
 
 ## Benötigte Software
 - [Git](https://git-scm.com/) (Quellcodeverwaltung)
@@ -9,7 +23,7 @@
 - Einen Editor (vorzugsweise PhpStorm)
 
 ## Initiales Setup
-1. Klone dieses Repository `git clone git@github.com:Basster/hs-bremen-web-api.git`
+1. Klone dieses Repository: https://github.com/jgreilich/hs-bremen-web-api.git
 2. Wechsel in das Verzeichnis `cd hs-bremen-web-api`
 3. Starte die VM mit `vagrant up`
 4. Warte bis die VM erstellt wurde, währenddessen folgendes, als neue Zeile, in die Datei `C:\Windows\System32\drivers\etc\hosts` bzw. `/etc/hosts/` eintragen (Als Administrator/root bearbeiten):  
@@ -65,17 +79,9 @@ php vendor/bin/phpunit -c phpunit.xml.dist
 ```
 oder über die IDE
 
-## Swagger UI Standalone
 
-https://github.com/swagger-api/swagger-ui#build  
 
-Benötigt npm und python! 
- 
-- npm install
-- npm run serve
-- Browser: http://localhost:8080/
-  
-TODO: PhpStorm Setup beschreiben!
+
 
 
 
