@@ -107,9 +107,7 @@ EOS;
 
     public function subscribeCourse($username, $courseid)
     {
-        try{
-            $this->connection->insert('user_course', ['user' => $username, 'courseid' => $courseid]);
-        } catch (\Exception $ex) {}
+        $this->connection->insert('user_course', ['user' => $username, 'courseid' => $courseid]);
     }
 
     public function unsubscribeCourse($username, $courseid)
@@ -122,11 +120,12 @@ EOS;
     {
         $sql = "SELECT user FROM `user_course` WHERE courseid= :id";
         $subs = $this->connection->fetchAll($sql,['id' => $courseid]);
-        $result = [];
-        foreach ($subs as $sub){
-            $result[] = $sub;
-        }
-        return $result;
+//        $result = [];
+//        foreach ($subs as $sub){
+//            $result[] = $sub;
+//        }
+//        return $result;
+        return $subs;
     }
 
 

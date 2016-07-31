@@ -30,52 +30,52 @@ class Appointment implements \JsonSerializable
 
     /**
      * @var int $id Appointment-ID
-     * @SWG\Property(type="integer", format="int32")
+     * @SWG\Property(type="integer", format="int32", default=42)
      */
     private $id;
     /**
      * @var string $description
-     * @SWG\Property(type="string")
+     * @SWG\Property(type="string", default="Quarter Year Meeting")
      */
     private $description;
     /**
      * @var DateTime $dtstart
-     * @SWG\Property(type="string", format="date-time")
+     * @SWG\Property(type="string", format="date-time", default="01.01.16 15:30")
      */
     private $dtstart;
     /**
      * @var DateTime $dtend
-     * @SWG\Property(type="string", format="date-time")
+     * @SWG\Property(type="string", format="date-time", default="01.01.16 17:30")
      */
     private $dtend;
     /** 
      * @var DateInterval $duration
-     * @SWG\Property(type="string")
+     * @SWG\Property(type="string", default="null")
      */
     private $duration;
     /** 
      * @var string $freq 
-     * @SWG\Property(type="string")
+     * @SWG\Property(type="string", default="MONTHLY")
      */
     private $freq;
     /** 
      * @var DateTime $until 
-     * @SWG\Property(type="string", format="date-time")
+     * @SWG\Property(type="string", format="date-time", default="null")
      */
     private $until;
     /** 
      * @var  int $count
-     * @SWG\Property(type="integer") 
+     * @SWG\Property(type="integer", default=8)
      */
     private $count;
     /**
      * @var  int $rinterval
-     * @SWG\Property(type="integer")
+     * @SWG\Property(type="integer",default=3)
      */
     private $rinterval;
     /**
      * @var int $course_id
-     * @SWG\Property(type="integer")
+     * @SWG\Property(type="integer", default=13)
      */
     private $courseid;
 
@@ -153,7 +153,7 @@ class Appointment implements \JsonSerializable
                 ($this->freq != null && !in_array($this->freq, self::$freqencies))
             )
         {
-            throw new InvalidAppointmentException();
+            throw new InvalidAppointmentException("Invalid Appointment.");
         }
     }
     

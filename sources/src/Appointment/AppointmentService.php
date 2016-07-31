@@ -25,11 +25,19 @@ class AppointmentService
     {
         $postData = $request->request->all();
         unset($postData['id']);
-        $appmnt = Appointment::createFromArray($postData);
-        $appmnt->setCourseid($courseId);
-        $appmnt->checkIntegrity();
-        $this->appointmentRepoistory->saveNewAppointment($appmnt);
-        return new JsonResponse($appmnt);
+        try{
+            $appmnt = Appointment::createFromArray($postData);
+            $appmnt->setCourseid($courseId);
+            $appmnt->checkIntegrity();
+        } catch (\Exception $ex) {
+            return new JsonResponse(['message' => $ex->getMessage()],400);
+        }
+        try{
+            $this->appointmentRepoistory->saveNewAppointment($appmnt);
+        } catch (\Exception $ex){
+            return new JsonResponse(['message' => $ex->getMessage()],404);
+        }
+        return new JsonResponse($appmnt,200);
     }
 
     public function getList($courseId)
@@ -40,20 +48,31 @@ class AppointmentService
     
     public function getDetails($courseId, $appmntId)
     {
-        $appmnt = $this->appointmentRepoistory->getAppointment($appmntId);
-        return new JsonResponse($appmnt);
+        try {
+            $appmnt = $this->appointmentRepoistory->getAppointment($appmntId); 
+        } catch (\Exception $ex) {
+            return new JsonResponse(['message' => $ex->getMessage()],404);
+        }
+        return new JsonResponse($appmnt,200);
     }
 
     public function changeAppmnt($courseId, $appmntId, Request $request)
     {
         $postData = $request->request->all();
         unset($postData['id']);
-        $appmnt = Appointment::createFromArray($postData);
-        $appmnt->setCourseid($courseId);
-        $appmnt->setId($appmntId);
-        $appmnt->checkIntegrity();
-
-        $this->appointmentRepoistory->saveAppointment($appmnt);
+        try{
+            $appmnt = Appointment::createFromArray($postData);
+            $appmnt->setCourseid($courseId);
+            $appmnt->setId($appmntId);
+            $appmnt->checkIntegrity();
+        } catch (\Exception $ex) {
+            return new JsonResponse(['message' => $ex->getMessage()],400);
+        }
+        try{
+            $this->appointmentRepoistory->saveAppointment($appmnt);
+        } catch (\Exception $ex){
+            return new JsonResponse(['message' => $ex->getMessage()],404);
+        }
         return new JsonResponse($appmnt,200);
     }
 

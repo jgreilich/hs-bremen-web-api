@@ -11,5 +11,5 @@ namespace HsBremen\WebApi\Entity;
 
 class InvalidAppointmentException extends \Exception
 {
-
+    
 }

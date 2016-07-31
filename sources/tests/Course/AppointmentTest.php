@@ -27,5 +27,22 @@ class AppointmentTest extends PHPUnit_Framework_TestCase
             'Invalid Frequency'      => ["", new DateTime(), null           , new DateInterval('PT2H'), "ERROR"                     , new DateTime(), null  , 2     , 1]
         ];
     }
+
+    /**
+     * @test
+     * @dataProvider appointmentsToSerialize
+     */
+    public function shouldSerializeAndBack(Appointment $appmnt)
+    {
+       $this->assertEquals($appmnt, Appointment::createFromArray($appmnt->jsonSerialize()));
+    }
+
+
+    public function appointmentsToSerialize()
+    {
+        return [
+            [new Appointment("Termin 1", new DateTime("01.01.2016 15:00"), new DateTime("01.01.2016 16:30"), null, Appointment::$freqencies[2], null, 2, 1, 1)],
+        ];
+    }
     
 }

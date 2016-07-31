@@ -2,6 +2,7 @@
 
 namespace HsBremen\WebApi\Course;
 
+use HsBremen\WebApi\Database\DatabaseException;
 use HsBremen\WebApi\Entity\Course;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,8 +44,12 @@ class CourseService
 
     public function getDetails($courseId)
     {
-        $course_tmp = $this->courseRepository->getCourse($courseId);
-        return new JsonResponse($course_tmp);
+        try{
+            $course_tmp = $this->courseRepository->getCourse($courseId);
+            return new JsonResponse($course_tmp);
+        } catch (DatabaseException $ex){
+            return new JsonResponse(['message' => $ex->getMessage()],404);
+        }
     }
 
 
@@ -54,31 +59,44 @@ class CourseService
         unset($postData['id']);
         unset($postData['owner']);
 
-        $course = $this->courseRepository->getCourse($courseId);
+        try{
+            $course = $this->courseRepository->getCourse($courseId);
+        } catch (DatabaseException $ex){
+            return new JsonResponse(['message' => $ex->getMessage()],404);
+        }
+        
         if($course->getOwner() == $this->getUsername()){
             $course->setName($postData['name']);
             $this->courseRepository->saveCourse($course);
             return new JsonResponse($course,201);
         } else {
-            throw new \Exception(); // TODO: Not Allowed Exception
+            return new JsonResponse(['message' => 'Not Owner of this Course!'],403);
         }
     }
 
     public function deleteCourse($courseId)
     {
-        $course = $this->courseRepository->getCourse($courseId);
+        try{
+            $course = $this->courseRepository->getCourse($courseId);
+        } catch (DatabaseException $ex){
+            return new JsonResponse(['message' => $ex->getMessage()],404);
+        }
         if($course->getOwner() == $this->getUsername()){
             $this->courseRepository->deleteCourse($courseId);
             return new JsonResponse([],200);
         } else {
-            throw new \Exception();
+            return new JsonResponse(['message' => 'Not Owner of this Course!'],403);
         }
     }
 
     public function subscribe($courseId)
     {
-        $this->courseRepository->subscribeCourse($this->getUsername(),$courseId);
-        return new JsonResponse([],200);
+        try{
+            $this->courseRepository->subscribeCourse($this->getUsername(),$courseId);
+            return new JsonResponse([],200);
+        } catch (\Exception $ex){
+            return new JsonResponse(['message' => $ex->getMessage()],400);
+        }
     }
 
     public function unsubscribe($courseId)

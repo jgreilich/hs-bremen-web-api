@@ -54,7 +54,11 @@ class CourseRoutesProvider implements ControllerProviderInterface
          *         response="200",
          *         description="a course",
          *         @SWG\Schema(ref="#/definitions/course")
-         *     )
+         *     ),
+         *     @SWG\Response(
+         *          response="404",
+         *          description="Course not found."
+         *      )
          * )
          */
         $controllers->get('/{courseId}', 'service.course:getDetails'); // ok
@@ -65,8 +69,19 @@ class CourseRoutesProvider implements ControllerProviderInterface
          *     tags={"course"},
          *     @SWG\Parameter(name="courseId", type="integer", in="path"),
          *     @SWG\Parameter(name="course", in="body", @SWG\Schema(ref="#/definitions/course")),
-         *     @SWG\Response(response="201", description="Changed Course.",
-         *     @SWG\Schema(ref="#/definitions/course"))
+         *     @SWG\Response(
+         *          response="201",
+         *          description="Changed Course.",
+         *          @SWG\Schema(ref="#/definitions/course")
+         *      ),
+         *     @SWG\Response(
+         *          response="404",
+         *          description="Course not found."
+         *      ),
+         *     @SWG\Response(
+         *          response="403",
+         *          description="Not Owner of this course."
+         *      )
          * )
          */
         $controllers->put('/{courseId}', 'service.course:changeCourse'); // ok
@@ -76,7 +91,15 @@ class CourseRoutesProvider implements ControllerProviderInterface
          *     path="/course/{courseId}",
          *     tags={"course"},
          *     @SWG\Parameter(name="courseId", type="integer", in="path"),
-         *     @SWG\Response(response="200", description="Successfull deleted.")
+         *     @SWG\Response(response="200", description="Successfull deleted."),
+         *     @SWG\Response(
+         *          response="404",
+         *          description="Course not found."
+         *      ),
+         *     @SWG\Response(
+         *          response="403",
+         *          description="Not Owner of this course."
+         *      )
          * )
          */
         $controllers->delete('/{courseId}', 'service.course:deleteCourse'); // ok
@@ -98,9 +121,18 @@ class CourseRoutesProvider implements ControllerProviderInterface
          *     @SWG\Parameter(name="courseId", type="integer", in="path"),
          *     @SWG\Parameter(name="appointment", in="body", @SWG\Schema(ref="#/definitions/appointment")),
          *     @SWG\Response(
-         *     response="201",
-         *     description="Appointment Created",
-         *     @SWG\Schema(ref="#/definitions/appointment"))
+         *          response="201",
+         *          description="Appointment Created",
+         *          @SWG\Schema(ref="#/definitions/appointment")
+         *      ),
+         *     @SWG\Response(
+         *          response="400",
+         *          description="Invalid Appointment",
+         *     ),
+         *     @SWG\Response(
+         *          response="404",
+         *          description="Course does not exist.",
+         *     )
          * )
          */
         $controllers->post('/{courseId}/appointment/','service.appmnt:newAppointment'); // ok
@@ -111,7 +143,15 @@ class CourseRoutesProvider implements ControllerProviderInterface
          *     tags={"appointment"},
          *     @SWG\Parameter(name="courseId", type="integer", in="path"),
          *     @SWG\Parameter(name="appmntId", type="integer", in="path"),
-         *     @SWG\Response(response="200", description="List of appointsments", @SWG\Schema(ref="#/definitions/appointment"))
+         *     @SWG\Response(
+         *          response="200",
+         *          description="List of appointsments",
+         *          @SWG\Schema(ref="#/definitions/appointment")
+         *      ),
+         *     @SWG\Response(
+         *          response="404",
+         *          description="Appointment does not exist.",
+         *     )
          * )
          */
         $controllers->get('/{courseId}/appointment/{appmntId}', 'service.appmnt:getDetails'); // ok
@@ -124,9 +164,18 @@ class CourseRoutesProvider implements ControllerProviderInterface
          *     @SWG\Parameter(name="appmntId", type="integer", in="path"),
          *     @SWG\Parameter(name="appointment", in="body", @SWG\Schema(ref="#/definitions/appointment")),
          *     @SWG\Response(
-         *     response="201",
-         *     description="Appointment Changed",
-         *     @SWG\Schema(ref="#/definitions/appointment"))
+         *          response="201",
+         *          description="Appointment Changed",
+         *          @SWG\Schema(ref="#/definitions/appointment")
+         *     ),
+         *     @SWG\Response(
+         *          response="400",
+         *          description="Invalid Appointment",
+         *     ),
+         *     @SWG\Response(
+         *          response="404",
+         *          description="Course does not exist.",
+         *     )
          * )
          */
         $controllers->put('/{courseId}/appointment/{appmntId}', 'service.appmnt:changeAppmnt'); // ok
