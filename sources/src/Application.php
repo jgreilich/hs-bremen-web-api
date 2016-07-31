@@ -4,9 +4,14 @@ namespace HsBremen\WebApi;
 
 use Basster\Silex\Provider\Swagger\SwaggerProvider;
 use Basster\Silex\Provider\Swagger\SwaggerServiceKey;
+use HsBremen\WebApi\Appointment\AppointmentServiceProvider;
+use HsBremen\WebApi\Course\CourseServiceProvider;
 use HsBremen\WebApi\Database\DatabaseProvider;
+use HsBremen\WebApi\Error\ErrorProvider;
+use HsBremen\WebApi\Logging\LoggingProvider;
 use HsBremen\WebApi\Order\OrderServiceProvider;
 use HsBremen\WebApi\Security\SecurityProvider;
+use HsBremen\WebApi\Security\UserServiceProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
 use Silex\Application as Silex;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -25,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
  *     host="web-api.vm"
  * )
  * @SWG\Info(
- *     title="My First API",
+ *     title="Course Provider",
  *     version="0.1"
  * )
  */
@@ -38,7 +43,8 @@ class Application extends Silex
 
         $app = $this;
 
-        $app['base_path'] = __DIR__;
+        $app['base_path']    = __DIR__;
+        $app['logging_path'] = $app['base_path'] . '/../logs';
 
         $this->register(new SwaggerProvider(),
                         [
@@ -52,15 +58,26 @@ class Application extends Silex
                          'swaggerui.docs' => '/docs/swagger.json',
                        ]);
 
+        // logging
+//        $this->register(new LoggingProvider());
+
         // enable cross origin requests!
         $app->register(new CorsServiceProvider());
 
         // enable database connection
         $app->register(new DatabaseProvider());
 
-        // al about orders
-        $this->register(new OrderServiceProvider());
+        // Security
         $this->register(new SecurityProvider());
+        $this->register(new UserServiceProvider());
+
+        $this->register(new AppointmentServiceProvider());
+        // course Provider
+        $this->register(new CourseServiceProvider());
+
+        // error handling
+        // https://github.com/financialmedia/FMKeystoneBundle/issues/12 // Fuck this shit!!!!!!!!!!
+//        $this->register(new ErrorProvider());
 
         // http://silex.sensiolabs.org/doc/cookbook/json_request_body.html
         $this->before(function (Request $request) use ($app) {
